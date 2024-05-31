@@ -33,7 +33,7 @@ app.get('/frutas', async (req, res) => {
   }
 })
 
-app.get('/frutas/id/:id', async (req, res) => {
+app.get('/frutas/:id', async (req, res) => {
   const client = await connectToMongoDB()
   if (!client) {
     res.status(500).send('Error al conectarse a la DB')
