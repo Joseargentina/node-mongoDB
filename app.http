@@ -2,15 +2,16 @@
 GET http://localhost:3008/
 
 ###Mostrar todas las frutas
-GET http://localhost:3008/frutas 
+GET http://localhost:3008/frutas
+
 
 
 ###Mostrar frutas por id
-GET http://localhost:3008/frutas/12
+GET http://localhost:3008/frutas/13
 
 
 ###Mostrar frutas por el precio
-GET http://localhost:3008/frutas/importe/1000000
+GET http://localhost:3008/frutas/importe/1000000 
 
 
 ###Mostrar frutas por el nombre

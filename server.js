@@ -25,7 +25,7 @@ app.get('/frutas', async (req, res) => {
   try {
     const db = client.db('Productos')
     const frutas = await db.collection('frutas').find().toArray()
-    !frutas ? res.status(404).send('No se encontraron frutas') : res.json(frutas)
+    frutas.length === 0 ? res.status(404).send('No se encontraron frutas') : res.json(frutas)
   } catch (error) {
     res.status(500).send('Error al obtener las frutas')
   } finally {
@@ -85,6 +85,11 @@ app.get('/frutas/nombre/:nombre', async (req, res) => {
   } finally {
     await disconnectFromMongoDB()
   }
+})
+
+// Middleware para manejar errores 404
+app.use((req, res, next) => {
+  res.status(404).send('Página no encontrada')
 })
 
 app.listen(PORT, () => {
