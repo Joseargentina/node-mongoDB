@@ -10,9 +10,9 @@ GET http://localhost:3008/frutas/id/7
 
 
 ###Mostrar frutas por el precio
-GET http://localhost:3008/frutas/importe/precio/270
+GET http://localhost:3008/frutas/importe/1000000
 
 
 ###Mostrar frutas por el nombre
-GET http://localhost:3008/frutas/nombre/manzana
+GET http://localhost:3008/frutas/nombre/xz
 

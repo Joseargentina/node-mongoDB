@@ -60,8 +60,8 @@ app.get('/frutas/importe/:precio', async (req, res) => {
   try {
     const precio = parseFloat(req.params.precio) || 0
     const db = client.db('Productos')
-    const frutaEncontrada = await db.collection('frutas').find({ importe: { $eq: precio } }).toArray()
-    !frutaEncontrada ? res.status(404).json(`No se encontro fruta con el precio: ${precio}`) : res.json(frutaEncontrada)
+    const frutaEncontrada = await db.collection('frutas').find({ importe: { $gte: precio } }).toArray()
+    frutaEncontrada.length === 0 ? res.status(404).json(`No se encontro fruta con el precio: ${precio}`) : res.json(frutaEncontrada)
   } catch (error) {
     res.status(500).send('Error a obtener fruta por el precio')
   } finally {
@@ -70,24 +70,21 @@ app.get('/frutas/importe/:precio', async (req, res) => {
 })
 
 app.get('/frutas/nombre/:nombre', async (req, res) => {
-  const nombre = req.params.nombre
   const client = await connectToMongoDB()
   if (!client) {
     res.status(500).send('Error al conectarse a MongoDB')
     return
   }
-  // try {
-
-  // } catch (error) {
-
-  // } finally {
-  //   await disconnectFromMongoDB()
-
-  // }
-  const db = client.db('Productos')
-  const frutaNombre = await db.collection('frutas').find({ nombre: { $regex: new RegExp('^' + nombre + '$', 'i') } }).toArray()
-
-  !frutaNombre ? res.status(404).json(`No se encontro la fruta con el nombre: ${nombre}`) : res.json(frutaNombre)
+  try {
+    const nombre = req.params.nombre
+    const db = client.db('Productos')
+    const frutas = await db.collection('frutas').find({ nombre: { $regex: nombre, $options: 'i' } }).toArray()
+    frutas.length === 0 ? res.status(404).json(`No se encontraron frutas con el nombre: ${nombre}`) : res.json(frutas)
+  } catch (error) {
+    res.status(500).send('Error a obtener fruta por el nombre')
+  } finally {
+    await disconnectFromMongoDB()
+  }
 })
 
 app.listen(PORT, () => {
